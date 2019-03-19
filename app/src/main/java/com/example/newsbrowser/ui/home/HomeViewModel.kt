@@ -16,19 +16,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(private val repository: DataSource) : ViewModel() {
     private val articlesObservable: MutableLiveData<List<Article>> = MutableLiveData()
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     fun getArticlesObservable():LiveData<List<Article>> = articlesObservable
 
-    private lateinit var repository: DataSource
-
 
     fun getArticles(application: Application) {
-        repository = NewsRepository(remoteDataSource = RemoteDataSource(),
-            localDataSource = LocalDataSource(application))
         compositeDisposable.add(repository.getTopNewsHeadlines(NEWS_SOURCE, API_KEY)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
