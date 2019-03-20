@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         val homeViewModel = ViewModelProviders.of(this, homeViewModelFactory).get(HomeViewModel::class.java)
         activityMainBinding.progressVisibility = homeViewModel.getProgressObservable()
 
+
         val newsAdapter = NewsAdapter()
         rvNewsItems.layoutManager = LinearLayoutManager(this)
         rvNewsItems.adapter = newsAdapter

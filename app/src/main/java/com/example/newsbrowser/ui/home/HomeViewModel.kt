@@ -26,8 +26,8 @@ class HomeViewModel(private val repository: DataSource) : ViewModel() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { progressObservable.set(true) }
-            .doOnEvent { _: List<Article>, _: Throwable -> progressObservable.set(false) }
-            .subscribe({ Log.d("Description", it[0].description) }, { it.printStackTrace() })
+            .doOnEvent { _, _ -> progressObservable.set(false) }
+            .subscribe({ articlesObservable.value = it }, { it.printStackTrace() })
         )
     }
 }

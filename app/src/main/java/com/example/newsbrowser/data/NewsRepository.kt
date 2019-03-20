@@ -9,9 +9,9 @@ class NewsRepository(private val localDataSource: DataSource,
 
     override fun getTopNewsHeadlines(source: String, apiKey: String): Maybe<List<Article>> {
         return remoteDataSource.getTopNewsHeadlines(source, apiKey)
-            //.doOnSuccess { result -> result.forEach { article -> addNewsHeadline(article) } }
-            /*.onErrorResumeNext { _: Throwable ->
-                localDataSource.getTopNewsHeadlines(source, apiKey) }*/
+            .doOnSuccess { result -> result.forEach { article -> addNewsHeadline(article) } }
+            .onErrorResumeNext { _: Throwable ->
+                localDataSource.getTopNewsHeadlines(source, apiKey) }
     }
 
     override fun addNewsHeadline(article: Article) {
